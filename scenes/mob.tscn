@@ -1,23 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://mlcmcvlbsjkb"]
+[gd_scene load_steps=2 format=3 uid="uid://xsqmtj0h23fd"]
 
-[ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="1_4are2"]
-[ext_resource type="Script" uid="uid://bgdrrkwdbsgxq" path="res://scripts/mob.gd" id="1_bsing"]
+[ext_resource type="PackedScene" uid="uid://cquu8r16n8wsm" path="res://scenes/entity.tscn" id="1_4are2"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bsing"]
-atlas = ExtResource("1_4are2")
-region = Rect2(0, 8, 8, 8)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4cuo"]
-size = Vector2(28, 28)
-
-[node name="Mob" type="CharacterBody2D" groups=["mobs"]]
-script = ExtResource("1_bsing")
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(4, 4)
-texture = SubResource("AtlasTexture_bsing")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, 2)
-shape = SubResource("RectangleShape2D_d4cuo")
+[node name="Mob" instance=ExtResource("1_4are2")]

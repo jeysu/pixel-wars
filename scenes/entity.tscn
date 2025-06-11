@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cquu8r16n8wsm"]
+
+[ext_resource type="Script" uid="uid://bw277ap6ekl5k" path="res://scripts/entity.gd" id="1_023up"]
+[ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="1_i0sav"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4i3nd"]
+atlas = ExtResource("1_i0sav")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4whkr"]
+size = Vector2(28, 32)
+
+[node name="Entity" type="CharacterBody2D" groups=["adventurers"]]
+script = ExtResource("1_023up")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_4i3nd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_4whkr")

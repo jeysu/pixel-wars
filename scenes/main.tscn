@@ -1,79 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cpqaf10my1qlk"]
+[gd_scene load_steps=6 format=3 uid="uid://cpqaf10my1qlk"]
 
 [ext_resource type="Script" uid="uid://d2pc3rvgsskb8" path="res://scripts/main.gd" id="1_o5qli"]
-[ext_resource type="PackedScene" uid="uid://cquu8r16n8wsm" path="res://scenes/entity.tscn" id="2_0wfyh"]
-[ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="3_sugp2"]
-
-[sub_resource type="GDScript" id="GDScript_jyhfs"]
-script/source = "extends CharacterBody2D
-
-var speed = 100 # Speed of character
-
-# Factors for wobble animation
-var wobble_time_elapsed := 0.0
-var wobble_speed := 10.0
-var degree_of_wobble := 5.0
-
-var adventurers # To store instances of adventurers in group \"adventurers\"
-
-func _process(delta):
-	# Play wobble animation when character is moving
-	if velocity.length() > 0:
-		wobble_time_elapsed += fmod(delta * wobble_speed, TAU) # Reset wobble_time_elapsed to 0 after sin cycle
-		$Sprite2D.rotation_degrees = sin(wobble_time_elapsed) * degree_of_wobble # Smooth transition using sin wave
-	
-	# Flip sprite depending on direction
-	if velocity.x > 0:
-		$Sprite2D.flip_h = 1
-	else:
-		$Sprite2D.flip_h = 0
-	
-	adventurers = get_tree().get_nodes_in_group(\"adventurers\") # Store instances of adventurers in group \"adventurers\"
-	var target = get_closest_adventurer() # Find the closest mob from the mobs array
-	# Walk towards adventurer if there is an adventurer
-	if target:
-		var direction = (target.global_position - global_position).normalized()
-		velocity = direction * speed
-		move_and_slide()
-	else:
-		velocity = Vector2.ZERO
-		move_and_slide()
-
-func get_closest_adventurer():
-	var closest_distance = INF # Set to infinity
-	var closest_adventurer
-	
-	if adventurers.is_empty():
-		return null
-	else:
-		# Compare each distance from an adventurer and return the closest adventurer
-		for adventurer in adventurers:
-			var distance = global_position.distance_to(adventurer.global_position)
-			if (distance < closest_distance):
-				closest_distance = distance
-				closest_adventurer = adventurer
-		return closest_adventurer
-"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bsing"]
-atlas = ExtResource("3_sugp2")
-region = Rect2(0, 8, 8, 8)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4cuo"]
-size = Vector2(28, 28)
-
-[sub_resource type="PackedScene" id="PackedScene_tbgi4"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("Mob", "script", "metadata/_edit_group_", "mobs", "CharacterBody2D", "Sprite2D", "scale", "texture", "CollisionShape2D", "position", "shape"),
-"node_count": 3,
-"node_paths": [],
-"nodes": PackedInt32Array(-1, -1, 4, 0, -1, 2, 1, 0, 2, 1, 1, 3, 0, 0, 5, 5, -1, 2, 6, 2, 7, 3, 0, 0, 0, 8, 8, -1, 2, 9, 4, 10, 5, 0),
-"variants": [SubResource("GDScript_jyhfs"), true, Vector2(4, 4), SubResource("AtlasTexture_bsing"), Vector2(2, 2), SubResource("RectangleShape2D_d4cuo")],
-"version": 3
-}
+[ext_resource type="PackedScene" uid="uid://c5ldnv3l3lpth" path="res://scenes/adventurer.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://ds42gr7xhg8d0" path="res://scenes/mob.tscn" id="3_sugp2"]
 
 [sub_resource type="Curve2D" id="Curve2D_0wfyh"]
 _data = {
@@ -90,7 +19,7 @@ point_count = 2
 [node name="Main" type="Node"]
 script = ExtResource("1_o5qli")
 adventurers = ExtResource("2_0wfyh")
-mobs = SubResource("PackedScene_tbgi4")
+mobs = ExtResource("3_sugp2")
 
 [node name="AdventurerSpawnPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_0wfyh")

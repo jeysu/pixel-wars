@@ -27,7 +27,7 @@ func _process(delta):
 	if is_in_group("adventurers"):
 		opposing_entities = get_tree().get_nodes_in_group("mobs") # Store instances of opposing_entities
 	elif is_in_group("mobs"):
-		opposing_entities = get_tree().get_nodes_in_group("adventurers")
+		opposing_entities = get_tree().get_nodes_in_group("adventurers") # Store instances of opposing_entities
 	
 	var target = get_closest_opposing_entity() # Find the closest opposing_entity from the mobs array
 	# Walk towards opposing_entity if there is one

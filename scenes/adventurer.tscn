@@ -1,5 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5ldnv3l3lpth"]
+[gd_scene load_steps=4 format=3 uid="uid://c5ldnv3l3lpth"]
 
 [ext_resource type="PackedScene" uid="uid://cquu8r16n8wsm" path="res://scenes/entity.tscn" id="1_i0sav"]
+[ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="2_023up"]
 
-[node name="Adventurer" instance=ExtResource("1_i0sav")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_h70i8"]
+atlas = ExtResource("2_023up")
+region = Rect2(0, 0, 8, 8)
+
+[node name="Adventurer" groups=["adventurers"] instance=ExtResource("1_i0sav")]
+
+[node name="Sprite2D" parent="." index="0" groups=["adventurers"]]
+texture = SubResource("AtlasTexture_h70i8")

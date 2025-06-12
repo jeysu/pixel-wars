@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var hp := 100
 @export var speed := 100
-@export var attack := 10
+@export var attack_damage := 10
 @export var attack_speed := 1
 
 var wobble_time_elapsed := 0.0
@@ -13,24 +13,23 @@ var attack_time_elapsed := 0.0
 var opposing_entities
 var target
 var collision
-	
+
+func _ready():
+	z_index = int(global_position.y)
+
 func _process(delta):
-	get_opposing_entities()
+	set_opposing_entities()
 	move_to_target(delta)
-	play_walking_animation(delta)
 	flip_sprite()
-	
-	if collision:
-		var collided_node = collision.get_collider()
-		if collided_node in opposing_entities:
-			apply_attack(collided_node, delta)
+	play_walking_animation(delta)
+	is_fighting(delta)
 			
-func get_opposing_entities():
+func set_opposing_entities():
 	if is_in_group("adventurers"):
 		opposing_entities = get_tree().get_nodes_in_group("mobs")
 	elif is_in_group("mobs"):
 		opposing_entities = get_tree().get_nodes_in_group("adventurers")
-
+		
 func move_to_target(delta):
 	target = get_closest_opposing_entity()
 	if target:
@@ -40,25 +39,32 @@ func move_to_target(delta):
 		velocity = Vector2.ZERO * delta
 	collision = move_and_collide(velocity)
 
-func play_walking_animation(delta):
-	if velocity.length() > 0:
-		wobble_time_elapsed += delta * wobble_speed
-		wobble_time_elapsed = wrapf(wobble_time_elapsed, 0, TAU) # Reset wobble_time_elapsed to 0 after sin cycle
-		$Sprite2D.rotation_degrees = sin(wobble_time_elapsed) * degree_of_wobble # Smooth transition using sin wave
-
 func flip_sprite():
 	if velocity.x > 0:
 		$Sprite2D.flip_h = 1
 	else:
 		$Sprite2D.flip_h = 0
-	
+
+func play_walking_animation(delta):
+	if velocity.length() > 0:
+		wobble_time_elapsed += delta * wobble_speed
+		wobble_time_elapsed = wrapf(wobble_time_elapsed, 0, TAU) # Reset after sin cycle
+		$Sprite2D.rotation_degrees = sin(wobble_time_elapsed) * degree_of_wobble # Transition using sin wave
+
+func is_fighting(delta):
+	if collision:
+		var collided_node = collision.get_collider()
+		if collided_node in opposing_entities:
+			apply_attack(collided_node, delta)
+			play_attack_animation(delta)
+			
 func get_closest_opposing_entity():
 	var closest_distance = INF
 	var closest_opposing_entity
 	
 	if opposing_entities.is_empty():
 		return null
-	# Compare each distance from a mob and return the closest mob
+	# Compare each distance from a mob and return the closest
 	for opposing_entity in opposing_entities:
 		var distance = global_position.distance_to(opposing_entity.global_position)
 		if (distance < closest_distance):
@@ -69,9 +75,12 @@ func get_closest_opposing_entity():
 func apply_attack(enemy, delta):
 	attack_time_elapsed += delta
 	if attack_time_elapsed >= 1 / attack_speed:
-		enemy.take_damage(attack)
+		enemy.take_attack(attack_damage)
 
-func take_damage(attack):
-	hp -= attack
+func take_attack(attack_damage):
+	hp -= attack_damage
 	if hp <= 0:
 		queue_free()
+
+func play_attack_animation(delta):
+	pass

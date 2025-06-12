@@ -8,6 +8,8 @@ atlas = ExtResource("2_bsing")
 region = Rect2(0, 8, 8, 8)
 
 [node name="Mob" groups=["mobs"] instance=ExtResource("1_4are2")]
+hp = 20
+attack = 5
 
 [node name="Sprite2D" parent="." index="0" groups=["mobs"]]
 texture = SubResource("AtlasTexture_d4cuo")

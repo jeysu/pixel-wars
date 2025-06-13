@@ -8,7 +8,9 @@ extends CharacterBody2D
 var wobble_time_elapsed := 0.0
 var wobble_speed := 10.0
 var degree_of_wobble := 5.0
+
 var attack_time_elapsed := 0.0
+var degree_of_attack := 15
 
 var opposing_entities
 var target
@@ -53,6 +55,7 @@ func play_walking_animation(delta):
 
 func is_fighting(delta):
 	if collision:
+		velocity = Vector2.ZERO
 		var collided_node = collision.get_collider()
 		if collided_node in opposing_entities:
 			apply_attack(collided_node, delta)
@@ -76,6 +79,7 @@ func apply_attack(enemy, delta):
 	attack_time_elapsed += delta
 	if attack_time_elapsed >= 1 / attack_speed:
 		enemy.take_attack(attack_damage)
+		attack_time_elapsed = 0
 
 func take_attack(attack_damage):
 	hp -= attack_damage
@@ -83,4 +87,12 @@ func take_attack(attack_damage):
 		queue_free()
 
 func play_attack_animation(delta):
-	pass
+	var peak_animation := 0.9
+	var attack_time_normalized
+	var flipped = -1 if $Sprite2D.flip_h else 1
+	if attack_time_elapsed < peak_animation / attack_speed:
+		attack_time_normalized = attack_time_elapsed / peak_animation
+		$Sprite2D.rotation_degrees = lerp(0, degree_of_attack * flipped, attack_time_normalized)
+	else:
+		attack_time_normalized = (attack_time_elapsed - peak_animation) / (1 - peak_animation)
+		$Sprite2D.rotation_degrees = lerp(degree_of_attack * flipped, 0, attack_time_normalized)

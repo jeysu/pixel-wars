@@ -6,13 +6,13 @@
 
 [sub_resource type="Curve2D" id="Curve2D_0wfyh"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 108, 0, 0, 0, 0, 0, 108, 720)
+"points": PackedVector2Array(0, 0, 0, 0, 216, 0, 0, 0, 0, 0, 216, 720)
 }
 point_count = 2
 
 [sub_resource type="Curve2D" id="Curve2D_sugp2"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 972, 0, 0, 0, 0, 0, 972, 720)
+"points": PackedVector2Array(0, 0, 0, 0, 864, 0, 0, 0, 0, 0, 864, 720)
 }
 point_count = 2
 
@@ -25,12 +25,12 @@ mobs = ExtResource("3_sugp2")
 curve = SubResource("Curve2D_0wfyh")
 
 [node name="SpawnPoint" type="PathFollow2D" parent="AdventurerSpawnPath"]
-position = Vector2(108, 0)
+position = Vector2(216, 0)
 rotation = 1.5708
 
 [node name="MobSpawnPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_sugp2")
 
 [node name="SpawnPoint" type="PathFollow2D" parent="MobSpawnPath"]
-position = Vector2(972, 0)
+position = Vector2(864, 0)
 rotation = 1.5708

@@ -18,6 +18,8 @@ var collision
 
 func _ready():
 	z_index = int(global_position.y)
+	$Control/HealthBar.max_value = hp
+	$Control/HealthBar.value = hp
 
 func _process(delta):
 	set_opposing_entities()
@@ -55,7 +57,6 @@ func play_walking_animation(delta):
 
 func is_fighting(delta):
 	if collision:
-		velocity = Vector2.ZERO
 		var collided_node = collision.get_collider()
 		if collided_node in opposing_entities:
 			apply_attack(collided_node, delta)
@@ -83,6 +84,7 @@ func apply_attack(enemy, delta):
 
 func take_attack(attack_damage):
 	hp -= attack_damage
+	$Control/HealthBar.value = hp
 	if hp <= 0:
 		queue_free()
 

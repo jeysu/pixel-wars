@@ -12,7 +12,6 @@ size = Vector2(26, 26)
 
 [node name="Entity" type="CharacterBody2D"]
 script = ExtResource("1_023up")
-metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)
@@ -21,3 +20,17 @@ texture = SubResource("AtlasTexture_m0cyi")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_4whkr")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="Control"]
+layout_mode = 0
+offset_left = -11.0
+offset_top = -21.0
+offset_right = 15.0
+offset_bottom = -17.0
+show_percentage = false

@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Abyss"
+config/name="Pixel Wars"
 run/main_scene="uid://cpqaf10my1qlk"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 

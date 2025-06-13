@@ -3,8 +3,8 @@ extends Node
 @export var adventurers: PackedScene
 @export var mobs: PackedScene
 
-var number_of_adventurers = 1
-var number_of_mobs = 1
+var number_of_adventurers = 10
+var number_of_mobs = 10
 
 func _ready():
 	for n in number_of_mobs:

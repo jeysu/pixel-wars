@@ -1,89 +1,101 @@
 extends CharacterBody2D
 
-@export var hp := 100
-@export var speed := 100
-@export var attack_damage := 10
-@export var attack_speed := 1
+@export var hp = 100
+@export var speed = 2500
+@export var attack_damage = 10
+@export var attack_speed = 1
 
-var wobble_time_elapsed := 0.0
-var wobble_speed := 10.0
-var degree_of_wobble := 5.0
+var wobble_time_elapsed = 0
+var wobble_speed = 10
+var degree_of_wobble = 5
 
-var attack_time_elapsed := 0.0
-var degree_of_attack := 15
+var attack_time_elapsed = 0
+var degree_of_attack = 15
 
 var opposing_entities
 var target
 var collision
+var collider
 
 func _ready():
-	z_index = int(global_position.y)
+	z_index = int(global_position.y) # Set z position to mimic depth
 	$Control/HealthBar.max_value = hp
 	$Control/HealthBar.value = hp
 
 func _process(delta):
-	set_opposing_entities()
-	move_to_target(delta)
-	flip_sprite()
-	play_walking_animation(delta)
-	is_fighting(delta)
-			
-func set_opposing_entities():
+	# Set opposing entities
 	if is_in_group("adventurers"):
-		opposing_entities = get_tree().get_nodes_in_group("mobs")
+		set_opposing_entities("mobs")
 	elif is_in_group("mobs"):
-		opposing_entities = get_tree().get_nodes_in_group("adventurers")
-		
-func move_to_target(delta):
-	target = get_closest_opposing_entity()
+		set_opposing_entities("adventurers")
+	
+	# Set closest opposing entity as target
+	if opposing_entities.is_empty():
+		target = null
+	else:
+		set_target_to_closest()
+	
+	# Move to target if there is one
 	if target:
-		var direction = (target.global_position - global_position).normalized()
-		velocity = direction * speed * delta
+		move_to_target(delta)
 	else:
 		velocity = Vector2.ZERO * delta
-	collision = move_and_collide(velocity)
-
-func flip_sprite():
-	if velocity.x > 0:
-		$Sprite2D.flip_h = 1
-	else:
-		$Sprite2D.flip_h = 0
-
-func play_walking_animation(delta):
+	flip_sprite_to_direction()
+	
+	# Play walking animation if moving
 	if velocity.length() > 0:
-		wobble_time_elapsed += delta * wobble_speed
-		wobble_time_elapsed = wrapf(wobble_time_elapsed, 0, TAU) # Reset after sin cycle
-		$Sprite2D.rotation_degrees = sin(wobble_time_elapsed) * degree_of_wobble # Transition using sin wave
-
-func is_fighting(delta):
-	if collision:
-		var collided_node = collision.get_collider()
-		if collided_node in opposing_entities:
-			apply_attack(collided_node, delta)
-			play_attack_animation(delta)
+		play_walking_animation(delta)
+	
+	# Trigger events if fighting
+	if is_fighting():
+		apply_attack(delta)
+		play_attack_animation(delta)
 			
-func get_closest_opposing_entity():
+func set_opposing_entities(opposing_group):
+	opposing_entities = get_tree().get_nodes_in_group(opposing_group)
+
+func set_target_to_closest():
 	var closest_distance = INF
 	var closest_opposing_entity
-	
-	if opposing_entities.is_empty():
-		return null
 	# Compare each distance from a mob and return the closest
 	for opposing_entity in opposing_entities:
 		var distance = global_position.distance_to(opposing_entity.global_position)
 		if (distance < closest_distance):
 			closest_distance = distance
 			closest_opposing_entity = opposing_entity
-	return closest_opposing_entity
+	target = closest_opposing_entity
+	
+func move_to_target(delta):
+	var direction = (target.global_position - global_position).normalized()
+	velocity = direction * speed * delta
+	move_and_slide()
 
-func apply_attack(enemy, delta):
+func flip_sprite_to_direction():
+	if abs(velocity.x) > 0.1:
+		$Sprite2D.flip_h = velocity.x > 0
+
+func play_walking_animation(delta):
+	wobble_time_elapsed += delta * wobble_speed
+	wobble_time_elapsed = wrapf(wobble_time_elapsed, 0, TAU) # Reset after sin cycle
+	$Sprite2D.rotation_degrees = sin(wobble_time_elapsed) * degree_of_wobble # Transition using sin wave
+
+func is_fighting():
+	for i in range(get_slide_collision_count()):
+		collision = get_slide_collision(i)
+		collider = collision.get_collider()
+		if collider in opposing_entities:
+			return true
+		else:
+			return false
+
+func apply_attack(delta):
 	attack_time_elapsed += delta
 	if attack_time_elapsed >= 1 / attack_speed:
-		enemy.take_attack(attack_damage)
+		collider.take_attack(attack_damage)
 		attack_time_elapsed = 0
 
-func take_attack(attack_damage):
-	hp -= attack_damage
+func take_attack(enemy_attack_damage):
+	hp -= enemy_attack_damage
 	$Control/HealthBar.value = hp
 	if hp <= 0:
 		queue_free()

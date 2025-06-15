@@ -20,3 +20,15 @@ func _ready():
 		adventurer_spawn_location.progress_ratio = randf()
 		adventurer.position = adventurer_spawn_location.position
 		add_child(adventurer)
+
+var dragging = false
+
+func _input(event):
+	pass
+	
+func _unhandled_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			dragging = event.pressed
+	if event is InputEventMouseMotion and dragging:
+		$Camera2D.global_position -= event.relative

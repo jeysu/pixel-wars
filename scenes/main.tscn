@@ -12,7 +12,7 @@ point_count = 2
 
 [sub_resource type="Curve2D" id="Curve2D_sugp2"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 864, 0, 0, 0, 0, 0, 864, 720)
+"points": PackedVector2Array(0, 0, 0, 0, 2060, 0, 0, 0, 0, 0, 2060, 720)
 }
 point_count = 2
 
@@ -32,5 +32,12 @@ rotation = 1.5708
 curve = SubResource("Curve2D_sugp2")
 
 [node name="SpawnPoint" type="PathFollow2D" parent="MobSpawnPath"]
-position = Vector2(864, 0)
+position = Vector2(2060, 0)
 rotation = 1.5708
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 360)
+limit_left = 0
+limit_top = 0
+limit_right = 2060
+limit_bottom = 0

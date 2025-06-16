@@ -31,4 +31,4 @@ func _unhandled_input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			dragging = event.pressed
 	if event is InputEventMouseMotion and dragging:
-		$Camera2D.global_position -= event.relative
+		$Camera.global_position -= event.relative

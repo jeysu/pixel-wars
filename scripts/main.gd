@@ -3,7 +3,6 @@ extends Node
 @export var adventurers: PackedScene
 @export var mobs: PackedScene
 
-var number_of_adventurers = 10
 var number_of_mobs = 10
 
 func _ready():
@@ -13,13 +12,6 @@ func _ready():
 		mob_spawn_location.progress_ratio = randf()
 		mob.position = mob_spawn_location.position
 		add_child(mob)
-	
-	for n in number_of_adventurers:
-		var adventurer = adventurers.instantiate()
-		var adventurer_spawn_location = $AdventurerSpawnPath/SpawnPoint
-		adventurer_spawn_location.progress_ratio = randf()
-		adventurer.position = adventurer_spawn_location.position
-		add_child(adventurer)
 
 var dragging
 
@@ -32,3 +24,10 @@ func _unhandled_input(event):
 			dragging = event.pressed
 	if event is InputEventMouseMotion and dragging:
 		$Camera.global_position -= event.relative
+
+func _on_add_melee_pressed():
+	var adventurer = adventurers.instantiate()
+	var adventurer_spawn_location = $AdventurerSpawnPath/SpawnPoint
+	adventurer_spawn_location.progress_ratio = randf()
+	adventurer.position = adventurer_spawn_location.position
+	add_child(adventurer)

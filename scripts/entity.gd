@@ -36,7 +36,7 @@ func _process(delta):
 	else:
 		set_target_to_closest()
 	
-	# Move to target if there is one
+	# Move to target if there is one and is currently not fighting
 	if target and not is_fighting():
 		move_to_target(delta)
 	else:

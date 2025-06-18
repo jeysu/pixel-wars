@@ -19,6 +19,7 @@ color = Color(0, 1, 0, 1)
 thickness = 2
 
 [node name="Entity" type="CharacterBody2D"]
+safe_margin = 0.5
 script = ExtResource("1_023up")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

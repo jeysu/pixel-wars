@@ -18,11 +18,12 @@ var collision
 var collider
 
 func _ready():
-	z_index = int(global_position.y) # Set z position to mimic depth
 	$Control/HealthBar.max_value = hp
 	$Control/HealthBar.value = hp
 
 func _process(delta):
+	z_index = int(global_position.y) # Set z position to mimic depth
+	
 	# Set opposing entities
 	if is_in_group("adventurers"):
 		set_opposing_entities("mobs")
@@ -36,7 +37,7 @@ func _process(delta):
 		set_target_to_closest()
 	
 	# Move to target if there is one
-	if target:
+	if target and not is_fighting():
 		move_to_target(delta)
 	else:
 		velocity = Vector2.ZERO * delta

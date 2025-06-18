@@ -21,7 +21,7 @@ func _ready():
 		adventurer.position = adventurer_spawn_location.position
 		add_child(adventurer)
 
-var dragging = false
+var dragging
 
 func _input(event):
 	pass

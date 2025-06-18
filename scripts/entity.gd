@@ -85,8 +85,7 @@ func is_fighting():
 		collider = collision.get_collider()
 		if collider in opposing_entities:
 			return true
-		else:
-			return false
+	return false
 
 func apply_attack(delta):
 	attack_time_elapsed += delta

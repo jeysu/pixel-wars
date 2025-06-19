@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cquu8r16n8wsm"]
+[gd_scene load_steps=9 format=3 uid="uid://cquu8r16n8wsm"]
 
 [ext_resource type="Script" uid="uid://bw277ap6ekl5k" path="res://scripts/entity.gd" id="1_023up"]
 [ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="2_gr72c"]
+[ext_resource type="Script" uid="uid://cd343amrpwciy" path="res://scripts/move.gd" id="3_m0cyi"]
+[ext_resource type="Script" uid="uid://py8rtwggjbw5" path="res://scripts/attack.gd" id="4_51v4c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m0cyi"]
 atlas = ExtResource("2_gr72c")
@@ -22,12 +24,17 @@ thickness = 2
 safe_margin = 0.5
 script = ExtResource("1_023up")
 
+[node name="Attack" type="Node2D" parent="." groups=["behavior"]]
+script = ExtResource("4_51v4c")
+
+[node name="Move" type="Node2D" parent="." groups=["behavior"]]
+script = ExtResource("3_m0cyi")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)
 texture = SubResource("AtlasTexture_m0cyi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_4whkr")
 

@@ -3,7 +3,8 @@ extends Node
 @export var adventurers: PackedScene
 @export var mobs: PackedScene
 
-var number_of_mobs = 10
+var number_of_mobs := 10
+var dragging := false
 
 func _ready():
 	for n in number_of_mobs:
@@ -12,8 +13,6 @@ func _ready():
 		mob_spawn_location.progress_ratio = randf()
 		mob.position = mob_spawn_location.position
 		add_child(mob)
-
-var dragging
 
 func _input(event):
 	pass

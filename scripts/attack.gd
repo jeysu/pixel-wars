@@ -1,10 +1,11 @@
 extends Node2D
 
-var entity
-var collision
-var collider
-var attack_time_elapsed = 0
-var degree_of_attack = 15
+var entity: CharacterBody2D
+var collision: KinematicCollision2D
+var collider: CharacterBody2D
+
+var attack_time_elapsed := 0.0
+var degree_of_attack := 15
 
 func setup(owner_entity):
 	entity = owner_entity

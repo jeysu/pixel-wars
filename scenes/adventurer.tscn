@@ -9,5 +9,5 @@ region = Rect2(0, 0, 8, 8)
 
 [node name="Adventurer" groups=["adventurers"] instance=ExtResource("1_i0sav")]
 
-[node name="Sprite2D" parent="." index="0" groups=["adventurers"]]
+[node name="Sprite2D" parent="." index="2" groups=["adventurers"]]
 texture = SubResource("AtlasTexture_h70i8")

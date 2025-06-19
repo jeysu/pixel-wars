@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://gghqfmf5pyio"]
+[gd_scene load_steps=8 format=3 uid="uid://gghqfmf5pyio"]
 
 [ext_resource type="Script" uid="uid://bw277ap6ekl5k" path="res://scripts/entity.gd" id="1_h5ip5"]
 [ext_resource type="Texture2D" uid="uid://b5xu7ce71l5cb" path="res://sprites/tileset.png" id="2_baglu"]
+[ext_resource type="Script" uid="uid://py8rtwggjbw5" path="res://scripts/attack.gd" id="2_t45w4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t45w4"]
 atlas = ExtResource("2_baglu")
@@ -21,9 +22,9 @@ thickness = 2
 [node name="Entity" type="CharacterBody2D"]
 safe_margin = 0.5
 script = ExtResource("1_h5ip5")
-hp = 1000
-speed = 0
-attack_damage = 0
+
+[node name="Attack" type="Node2D" parent="." groups=["behavior"]]
+script = ExtResource("2_t45w4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)

@@ -1,7 +1,7 @@
 extends Node2D
 
 var entity: CharacterBody2D
-var wobble_time_elapsed := 0
+var wobble_time_elapsed := 0.0
 var wobble_speed := 10
 var degree_of_wobble := 5
 

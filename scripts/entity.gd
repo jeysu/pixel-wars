@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
-@export var hp = 100
-@export var speed = 5000
-@export var attack_damage = 10
-@export var attack_speed = 1
+@export var hp := 100
+@export var speed := 5000
+@export var attack_damage := 10
+@export var attack_speed := 1
 
-var opposing_entities
-var target
+var target = CharacterBody2D
+var opposing_entities = {}
 var behaviors = {}
 
 func _ready():

@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 @export var hp := 100
-@export var speed := 5000
+@export var speed := 10000
 @export var attack_damage := 10
-@export var attack_speed := 1
+@export var attack_speed := 1.0
 
 var target = CharacterBody2D
 var opposing_entities = {}
@@ -12,7 +12,6 @@ var behaviors = {}
 func _ready():
 	for child in get_children():
 		if child.is_in_group("behavior"):
-			print(child.name)
 			behaviors[child.name.to_lower()] = child
 			if behaviors[child.name.to_lower()].has_method("setup"):
 				behaviors[child.name.to_lower()].setup(self)

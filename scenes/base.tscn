@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://gghqfmf5pyio"]
+
+[ext_resource type="Script" uid="uid://bw277ap6ekl5k" path="res://scripts/entity.gd" id="1_h5ip5"]
+[ext_resource type="Texture2D" uid="uid://b5xu7ce71l5cb" path="res://sprites/tileset.png" id="2_baglu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t45w4"]
+atlas = ExtResource("2_baglu")
+region = Rect2(72, 0, 8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4whkr"]
+size = Vector2(32, 32)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gr72c"]
+color = Color(1, 0, 0, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_m0cyi"]
+color = Color(0, 1, 0, 1)
+thickness = 2
+
+[node name="Entity" type="CharacterBody2D"]
+safe_margin = 0.5
+script = ExtResource("1_h5ip5")
+hp = 1000
+speed = 0
+attack_damage = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_t45w4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4whkr")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="Control"]
+layout_mode = 0
+offset_left = -14.0
+offset_top = -20.0
+offset_right = 14.0
+offset_bottom = -16.0
+theme_override_styles/background = SubResource("StyleBoxLine_gr72c")
+theme_override_styles/fill = SubResource("StyleBoxLine_m0cyi")
+show_percentage = false

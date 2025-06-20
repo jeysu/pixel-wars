@@ -8,6 +8,7 @@ atlas = ExtResource("2_023up")
 region = Rect2(0, 0, 8, 8)
 
 [node name="Adventurer" groups=["adventurers"] instance=ExtResource("1_i0sav")]
+speed = 1000
 
 [node name="Sprite2D" parent="." index="2" groups=["adventurers"]]
 texture = SubResource("AtlasTexture_h70i8")

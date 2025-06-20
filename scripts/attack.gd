@@ -23,6 +23,8 @@ func update(delta):
 func is_fighting():
 	for i in range(entity.get_slide_collision_count()):
 		collision = entity.get_slide_collision(i)
+		if collision.get_collider() is TileMapLayer:
+			return
 		collider = collision.get_collider()
 		if collider in entity.opposing_entities:
 			return true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cpqaf10my1qlk"]
+[gd_scene load_steps=21 format=3 uid="uid://cpqaf10my1qlk"]
 
 [ext_resource type="Script" uid="uid://d2pc3rvgsskb8" path="res://scripts/main.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://c5ldnv3l3lpth" path="res://scenes/adventurer.tscn" id="2_0wfyh"]
@@ -11,18 +11,6 @@
 [ext_resource type="Script" uid="uid://f3becyv0sgru" path="res://scripts/handle_camera.gd" id="5_tipki"]
 [ext_resource type="Script" uid="uid://dyj1gvoqfcyne" path="res://scripts/adventurer_spawner.gd" id="6_tipki"]
 [ext_resource type="Script" uid="uid://b21fwstudqbf7" path="res://scenes/procedural_generation.gd" id="10_ya4ey"]
-
-[sub_resource type="Curve2D" id="Curve2D_sugp2"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 2060, 340, 0, 0, 0, 0, 2060, 700)
-}
-point_count = 2
-
-[sub_resource type="Curve2D" id="Curve2D_0wfyh"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 216, 350, 0, 0, 0, 0, 216, 710)
-}
-point_count = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tefeu"]
 atlas = ExtResource("5_tbgi4")
@@ -1064,9 +1052,10 @@ sources/1 = SubResource("TileSetAtlasSource_eb6dy")
 [node name="Main" type="Node"]
 script = ExtResource("1_o5qli")
 
-[node name="BaseSpawner" type="Node2D" parent="."]
+[node name="BaseSpawner" type="Node2D" parent="." node_paths=PackedStringArray("world_generator")]
 script = ExtResource("2_85g3d")
 bases = ExtResource("4_tefeu")
+world_generator = NodePath("../ProceduralGeneration")
 
 [node name="AdventurerBaseLoc" type="Marker2D" parent="BaseSpawner"]
 position = Vector2(150, 518)
@@ -1074,29 +1063,15 @@ position = Vector2(150, 518)
 [node name="MobBaseLoc" type="Marker2D" parent="BaseSpawner"]
 position = Vector2(2110, 522)
 
-[node name="MobSpawner" type="Node2D" parent="." node_paths=PackedStringArray("mob_spawn_location")]
+[node name="MobSpawner" type="Node2D" parent="." node_paths=PackedStringArray("mob_spawn")]
 script = ExtResource("5_o6xl0")
 mobs = ExtResource("3_sugp2")
-mob_spawn_location = NodePath("MobSpawnPath/MobSpawnPoint")
+mob_spawn = NodePath("../BaseSpawner/MobBaseLoc")
 
-[node name="MobSpawnPath" type="Path2D" parent="MobSpawner"]
-curve = SubResource("Curve2D_sugp2")
-
-[node name="MobSpawnPoint" type="PathFollow2D" parent="MobSpawner/MobSpawnPath"]
-position = Vector2(2060, 340)
-rotation = 1.5708
-
-[node name="AdventurerSpawner" type="Node2D" parent="." node_paths=PackedStringArray("adventurer_spawn_location")]
+[node name="AdventurerSpawner" type="Node2D" parent="." node_paths=PackedStringArray("adventurer_spawn")]
 script = ExtResource("6_tipki")
 adventurers = ExtResource("2_0wfyh")
-adventurer_spawn_location = NodePath("AdventurerSpawnPath/AdventurerSpawnPoint")
-
-[node name="AdventurerSpawnPath" type="Path2D" parent="AdventurerSpawner"]
-curve = SubResource("Curve2D_0wfyh")
-
-[node name="AdventurerSpawnPoint" type="PathFollow2D" parent="AdventurerSpawner/AdventurerSpawnPath"]
-position = Vector2(216, 350)
-rotation = 1.5708
+adventurer_spawn = NodePath("../BaseSpawner/AdventurerBaseLoc")
 
 [node name="CameraHandler" type="Node2D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("5_tipki")

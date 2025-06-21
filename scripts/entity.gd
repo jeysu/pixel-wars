@@ -5,7 +5,6 @@ var opposing_entities = {}
 var behaviors = {}
 
 func _ready():
-	set_opposing_entities()
 	for child in get_children():
 		if child.is_in_group("behavior"):
 			behaviors[child.name.to_lower()] = child
@@ -13,6 +12,7 @@ func _ready():
 				behaviors[child.name.to_lower()].setup(self)
 
 func _process(delta):
+	set_opposing_entities()
 	if opposing_entities.is_empty():
 		target = null
 	else:

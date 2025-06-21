@@ -12,7 +12,7 @@
 atlas = ExtResource("2_bsing")
 region = Rect2(0, 8, 8, 8)
 
-[node name="Mob" type="CharacterBody2D"]
+[node name="Mob" type="CharacterBody2D" groups=["mobs"]]
 safe_margin = 0.5
 script = ExtResource("1_xsfyf")
 
@@ -25,8 +25,8 @@ attack_damage = 5
 attack_speed = 2.0
 
 [node name="MoveHandler" parent="." instance=ExtResource("3_ebxvl")]
-speed = 5000
-wobble_speed = 1
+speed = 100
+wobble_speed = 10
 degree_of_wobble = 15
 
 [node name="HealthHandler" parent="." groups=["behavior"] instance=ExtResource("5_wpivu")]

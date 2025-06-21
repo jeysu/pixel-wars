@@ -19,6 +19,7 @@ func update(delta):
 		move_to_target(delta, entity.target)
 	else:
 		entity.velocity = Vector2.ZERO * delta
+		entity.move_and_slide()
 	flip_sprite_to_direction(entity.get_node("AnimationHandler/Sprite2D"))
 	
 	# Play walking animation if moving
@@ -27,7 +28,7 @@ func update(delta):
 	
 func move_to_target(delta, target):
 	var direction = (target.global_position - entity.global_position).normalized()
-	entity.velocity = direction * entity.speed * delta
+	entity.velocity = direction * speed
 	entity.move_and_slide()
 
 func flip_sprite_to_direction(sprite):

@@ -12,7 +12,7 @@
 atlas = ExtResource("4_vpotv")
 region = Rect2(0, 0, 8, 8)
 
-[node name="Adventurer" type="CharacterBody2D"]
+[node name="Adventurer" type="CharacterBody2D" groups=["adventurers"]]
 safe_margin = 0.5
 script = ExtResource("1_l8wp2")
 
@@ -25,8 +25,8 @@ attack_damage = 10
 attack_speed = 1.0
 
 [node name="MoveHandler" parent="." instance=ExtResource("3_gnxuc")]
-speed = 5000
-wobble_speed = 1
+speed = 100
+wobble_speed = 10
 degree_of_wobble = 15
 
 [node name="HealthHandler" parent="." groups=["behavior"] instance=ExtResource("5_oxxqf")]

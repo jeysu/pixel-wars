@@ -11,7 +11,7 @@ func setup(parent):
 	health_bar.value = hp
 
 func decrease_health(amount):
-	entity.hp -= amount
-	health_bar.value = entity.hp
-	if entity.hp <= 0:
+	hp -= amount
+	health_bar.value = hp
+	if hp <= 0:
 		entity.queue_free()

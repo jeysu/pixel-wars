@@ -1,14 +1,41 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5ldnv3l3lpth"]
+[gd_scene load_steps=8 format=3 uid="uid://bi64osxasvhi4"]
 
-[ext_resource type="PackedScene" uid="uid://cquu8r16n8wsm" path="res://scenes/entity.tscn" id="1_i0sav"]
-[ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="2_023up"]
+[ext_resource type="Script" uid="uid://bw277ap6ekl5k" path="res://scripts/entity.gd" id="1_l8wp2"]
+[ext_resource type="PackedScene" uid="uid://b2pgmgtmao2o0" path="res://scenes/attack_handler.tscn" id="2_yplu3"]
+[ext_resource type="PackedScene" uid="uid://5qrhloa1medb" path="res://scenes/move_handler.tscn" id="3_gnxuc"]
+[ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="4_vpotv"]
+[ext_resource type="PackedScene" uid="uid://b7jnyefgyt7l2" path="res://scenes/health_handler.tscn" id="5_oxxqf"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h70i8"]
-atlas = ExtResource("2_023up")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4whkr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0cyi"]
+atlas = ExtResource("4_vpotv")
 region = Rect2(0, 0, 8, 8)
 
-[node name="Adventurer" groups=["adventurers"] instance=ExtResource("1_i0sav")]
-speed = 1000
+[node name="Adventurer" type="CharacterBody2D"]
+safe_margin = 0.5
+script = ExtResource("1_l8wp2")
 
-[node name="Sprite2D" parent="." index="2" groups=["adventurers"]]
-texture = SubResource("AtlasTexture_h70i8")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_4whkr")
+
+[node name="AttackHandler" parent="." instance=ExtResource("2_yplu3")]
+attack_damage = 10
+attack_speed = 1.0
+
+[node name="MoveHandler" parent="." instance=ExtResource("3_gnxuc")]
+speed = 5000
+wobble_speed = 1
+degree_of_wobble = 15
+
+[node name="HealthHandler" parent="." groups=["behavior"] instance=ExtResource("5_oxxqf")]
+hp = 100
+
+[node name="AnimationHandler" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimationHandler"]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_m0cyi")
+
+[connection signal="fighting_state_changed" from="AttackHandler" to="MoveHandler" method="_on_attack_handler_fighting_state_changed"]

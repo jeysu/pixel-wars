@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var parent: Node
 @export var bases: PackedScene
 @export var world_generator: Node2D
 var base_spawn: Marker2D
@@ -12,7 +13,7 @@ func spawn_adventurer_base():
 	base_spawn = $AdventurerBaseLoc
 	base_spawn.global_position = base_spawn_location
 	base.global_position = base_spawn.global_position
-	add_child(base)
+	parent.add_child(base)
 
 func spawn_mob_base():
 	var base = bases.instantiate()
@@ -21,7 +22,7 @@ func spawn_mob_base():
 	base_spawn = $MobBaseLoc
 	base_spawn.global_position = base_spawn_location
 	base.global_position = base_spawn.global_position
-	add_child(base)
+	parent.add_child(base)
 
 func get_random_location():
 	var random_tiles = world_generator.ground_tiles

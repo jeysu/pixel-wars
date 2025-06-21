@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7jnyefgyt7l2"]
+
+[ext_resource type="Script" uid="uid://dadvsseaabvob" path="res://scripts/health_handler.gd" id="1_p4f6q"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gr72c"]
+color = Color(1, 0, 0, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_m0cyi"]
+color = Color(0, 1, 0, 1)
+thickness = 2
+
+[node name="HealthHandler" type="Control" node_paths=PackedStringArray("health_bar")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_p4f6q")
+health_bar = NodePath("HealthBar")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = -10.0
+offset_top = -21.0
+offset_right = 14.0
+offset_bottom = -17.0
+theme_override_styles/background = SubResource("StyleBoxLine_gr72c")
+theme_override_styles/fill = SubResource("StyleBoxLine_m0cyi")
+show_percentage = false

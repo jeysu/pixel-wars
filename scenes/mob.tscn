@@ -1,15 +1,41 @@
-[gd_scene load_steps=4 format=3 uid="uid://ds42gr7xhg8d0"]
+[gd_scene load_steps=8 format=3 uid="uid://biaxhr6xaiq5o"]
 
-[ext_resource type="PackedScene" uid="uid://cquu8r16n8wsm" path="res://scenes/entity.tscn" id="1_4are2"]
+[ext_resource type="Script" uid="uid://bw277ap6ekl5k" path="res://scripts/entity.gd" id="1_xsfyf"]
 [ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="2_bsing"]
+[ext_resource type="PackedScene" uid="uid://b2pgmgtmao2o0" path="res://scenes/attack_handler.tscn" id="2_h8ps3"]
+[ext_resource type="PackedScene" uid="uid://5qrhloa1medb" path="res://scenes/move_handler.tscn" id="3_ebxvl"]
+[ext_resource type="PackedScene" uid="uid://b7jnyefgyt7l2" path="res://scenes/health_handler.tscn" id="5_wpivu"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d4cuo"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4whkr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0cyi"]
 atlas = ExtResource("2_bsing")
 region = Rect2(0, 8, 8, 8)
 
-[node name="Mob" groups=["mobs"] instance=ExtResource("1_4are2")]
-speed = 1000
+[node name="Mob" type="CharacterBody2D"]
+safe_margin = 0.5
+script = ExtResource("1_xsfyf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_4whkr")
+
+[node name="AttackHandler" parent="." instance=ExtResource("2_h8ps3")]
+attack_damage = 5
 attack_speed = 2.0
 
-[node name="Sprite2D" parent="." index="2" groups=["mobs"]]
-texture = SubResource("AtlasTexture_d4cuo")
+[node name="MoveHandler" parent="." instance=ExtResource("3_ebxvl")]
+speed = 5000
+wobble_speed = 1
+degree_of_wobble = 15
+
+[node name="HealthHandler" parent="." groups=["behavior"] instance=ExtResource("5_wpivu")]
+hp = 100
+
+[node name="AnimationHandler" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimationHandler"]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_m0cyi")
+
+[connection signal="fighting_state_changed" from="AttackHandler" to="MoveHandler" method="_on_attack_handler_fighting_state_changed"]

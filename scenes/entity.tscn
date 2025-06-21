@@ -1,55 +1,41 @@
-[gd_scene load_steps=9 format=3 uid="uid://cquu8r16n8wsm"]
+[gd_scene load_steps=8 format=3 uid="uid://cquu8r16n8wsm"]
 
 [ext_resource type="Script" uid="uid://bw277ap6ekl5k" path="res://scripts/entity.gd" id="1_023up"]
+[ext_resource type="PackedScene" uid="uid://b2pgmgtmao2o0" path="res://scenes/attack_handler.tscn" id="2_51v4c"]
 [ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="2_gr72c"]
-[ext_resource type="Script" uid="uid://cd343amrpwciy" path="res://scripts/move.gd" id="3_m0cyi"]
-[ext_resource type="Script" uid="uid://py8rtwggjbw5" path="res://scripts/attack.gd" id="4_51v4c"]
+[ext_resource type="PackedScene" uid="uid://5qrhloa1medb" path="res://scenes/move_handler.tscn" id="3_lmnk1"]
+[ext_resource type="PackedScene" uid="uid://b7jnyefgyt7l2" path="res://scenes/health_handler.tscn" id="5_lmnk1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4whkr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m0cyi"]
 atlas = ExtResource("2_gr72c")
 region = Rect2(0, 0, 8, 8)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4whkr"]
-size = Vector2(26, 26)
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_gr72c"]
-color = Color(1, 0, 0, 1)
-thickness = 2
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_m0cyi"]
-color = Color(0, 1, 0, 1)
-thickness = 2
-
 [node name="Entity" type="CharacterBody2D"]
 safe_margin = 0.5
 script = ExtResource("1_023up")
-
-[node name="Attack" type="Node2D" parent="." groups=["behavior"]]
-script = ExtResource("4_51v4c")
-
-[node name="Move" type="Node2D" parent="." groups=["behavior"]]
-script = ExtResource("3_m0cyi")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(4, 4)
-texture = SubResource("AtlasTexture_m0cyi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_4whkr")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="AttackHandler" parent="." instance=ExtResource("2_51v4c")]
+attack_damage = 10
+attack_speed = 1.0
 
-[node name="HealthBar" type="ProgressBar" parent="Control"]
-layout_mode = 0
-offset_left = -10.0
-offset_top = -21.0
-offset_right = 14.0
-offset_bottom = -17.0
-theme_override_styles/background = SubResource("StyleBoxLine_gr72c")
-theme_override_styles/fill = SubResource("StyleBoxLine_m0cyi")
-show_percentage = false
+[node name="MoveHandler" parent="." instance=ExtResource("3_lmnk1")]
+speed = 5000
+wobble_speed = 1
+degree_of_wobble = 15
+
+[node name="HealthHandler" parent="." groups=["behavior"] instance=ExtResource("5_lmnk1")]
+hp = 1000
+
+[node name="AnimationHandler" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimationHandler"]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_m0cyi")
+
+[connection signal="fighting_state_changed" from="AttackHandler" to="MoveHandler" method="_on_attack_handler_fighting_state_changed"]

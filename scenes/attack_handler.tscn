@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2pgmgtmao2o0"]
+
+[ext_resource type="Script" uid="uid://py8rtwggjbw5" path="res://scripts/attack_handler.gd" id="1_2n2kg"]
+
+[node name="AttackHandler" type="Node2D" groups=["behavior"]]
+script = ExtResource("1_2n2kg")

@@ -4,23 +4,31 @@ var entity: CharacterBody2D
 var collision: KinematicCollision2D
 var collider: CharacterBody2D
 
+@export var attack_damage: int
+@export var attack_speed: float
+
 var attack_time_elapsed := 0.0
 var degree_of_attack := 15
-var total_attack_duration := 0.0
+var total_attack_duration := 1 / attack_speed
 
-func setup(owner_entity):
+signal fighting_state_changed(is_fighting: bool)
+signal passed_attack(enemy_entity: int)
+
+func setup(owner_entity) -> void:
 	entity = owner_entity
-	total_attack_duration = 1 / entity.attack_speed
 
-func update(delta):
-	if not entity or not collider:
+func update(delta) -> void:
+	if not entity:
 		return
-	# Trigger events if fighting
 	if is_fighting():
-		apply_attack(delta)
+		fighting_state_changed.emit(true)
+		attack_entity(delta)
 		play_attack_animation(delta)
-		
+	else:
+		fighting_state_changed.emit(false)
+	
 func is_fighting():
+	print(entity.get_slide_collision_count())
 	for i in range(entity.get_slide_collision_count()):
 		collision = entity.get_slide_collision(i)
 		if collision.get_collider() is TileMapLayer:
@@ -30,17 +38,11 @@ func is_fighting():
 			return true
 	return false
 
-func apply_attack(delta):
+func attack_entity(delta):
 	attack_time_elapsed += delta
 	if attack_time_elapsed >= total_attack_duration:
-		collider.get_node("Attack").take_attack(entity.attack_damage)
+		collider.get_node("HealthHandler").decrease_health(attack_damage)
 		attack_time_elapsed = 0
-
-func take_attack(enemy_attack_damage):
-	entity.hp -= enemy_attack_damage
-	entity.get_node("Control/HealthBar").value = entity.hp
-	if entity.hp <= 0:
-		entity.queue_free()
 
 func play_attack_animation(delta):
 	var peak_animation_ratio := 0.9

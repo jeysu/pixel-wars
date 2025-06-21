@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://k0b05lfr3ovn"]
+
+[ext_resource type="Script" uid="uid://dwues2jt5andx" path="res://scripts/animation_handler.gd" id="1_8bppn"]
+
+[node name="AnimationHandler" type="Node2D" groups=["behavior"]]
+script = ExtResource("1_8bppn")
+wobble_speed = 5
+degree_of_wobble = 15

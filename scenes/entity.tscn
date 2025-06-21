@@ -1,14 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://cquu8r16n8wsm"]
+[gd_scene load_steps=9 format=3 uid="uid://cquu8r16n8wsm"]
 
 [ext_resource type="Script" uid="uid://bw277ap6ekl5k" path="res://scripts/entity.gd" id="1_023up"]
 [ext_resource type="PackedScene" uid="uid://b2pgmgtmao2o0" path="res://scenes/attack_handler.tscn" id="2_51v4c"]
 [ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="2_gr72c"]
 [ext_resource type="PackedScene" uid="uid://5qrhloa1medb" path="res://scenes/move_handler.tscn" id="3_lmnk1"]
 [ext_resource type="PackedScene" uid="uid://b7jnyefgyt7l2" path="res://scenes/health_handler.tscn" id="5_lmnk1"]
+[ext_resource type="PackedScene" uid="uid://k0b05lfr3ovn" path="res://scenes/animation_handler.tscn" id="5_ygnst"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4whkr"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m0cyi"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygnst"]
 atlas = ExtResource("2_gr72c")
 region = Rect2(0, 0, 8, 8)
 
@@ -20,22 +21,20 @@ script = ExtResource("1_023up")
 position = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_4whkr")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_ygnst")
+
 [node name="AttackHandler" parent="." instance=ExtResource("2_51v4c")]
 attack_damage = 10
 attack_speed = 1.0
 
 [node name="MoveHandler" parent="." instance=ExtResource("3_lmnk1")]
 speed = 5000
-wobble_speed = 1
-degree_of_wobble = 15
 
 [node name="HealthHandler" parent="." groups=["behavior"] instance=ExtResource("5_lmnk1")]
 hp = 1000
 
-[node name="AnimationHandler" type="Node2D" parent="."]
+[node name="AnimationHandler" parent="." instance=ExtResource("5_ygnst")]
 
-[node name="Sprite2D" type="Sprite2D" parent="AnimationHandler"]
-scale = Vector2(4, 4)
-texture = SubResource("AtlasTexture_m0cyi")
-
-[connection signal="fighting_state_changed" from="AttackHandler" to="MoveHandler" method="_on_attack_handler_fighting_state_changed"]
+[connection signal="fighting_state_changed" from="AttackHandler" to="MoveHandler" method="set_fighting_state"]

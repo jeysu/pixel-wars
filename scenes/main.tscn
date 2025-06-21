@@ -8,13 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://bqnunprxtps5o" path="res://scenes/base.tscn" id="4_tefeu"]
 [ext_resource type="Script" uid="uid://bno8ifqyq04k6" path="res://scripts/mob_spawner.gd" id="5_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://8mosrejsomo4" path="res://sprites/sprites.png" id="5_tbgi4"]
-[ext_resource type="Script" uid="uid://cutu0qnlgvr08" path="res://scripts/handle_camera.gd" id="5_tipki"]
+[ext_resource type="Script" uid="uid://cutu0qnlgvr08" path="res://scripts/camera_handler.gd" id="5_tipki"]
 [ext_resource type="Script" uid="uid://b8plqxbgefu32" path="res://scripts/adventurer_spawner.gd" id="6_tipki"]
-[ext_resource type="Script" uid="uid://cd1w20f68rkyl" path="res://scripts/procedural_generation.gd" id="10_ya4ey"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tefeu"]
-atlas = ExtResource("5_tbgi4")
-region = Rect2(0, 0, 8, 8)
+[ext_resource type="Script" uid="uid://cd1w20f68rkyl" path="res://scripts/world_generator.gd" id="10_ya4ey"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_ya4ey"]
 
@@ -1136,6 +1132,10 @@ terrain_set_0/terrain_0/name = "Grass"
 terrain_set_0/terrain_0/color = Color(0.216457, 0.188051, 1, 1)
 sources/1 = SubResource("TileSetAtlasSource_eb6dy")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_tefeu"]
+atlas = ExtResource("5_tbgi4")
+region = Rect2(0, 0, 8, 8)
+
 [node name="Main" type="Node"]
 script = ExtResource("1_o5qli")
 
@@ -1143,7 +1143,7 @@ script = ExtResource("1_o5qli")
 script = ExtResource("2_85g3d")
 parent = NodePath("..")
 bases = ExtResource("4_tefeu")
-world_generator = NodePath("../ProceduralGeneration")
+world_generator = NodePath("../WorldGenerator")
 
 [node name="AdventurerBaseLoc" type="Marker2D" parent="BaseSpawner"]
 position = Vector2(150, 518)
@@ -1168,6 +1168,23 @@ camera = NodePath("Camera")
 [node name="Camera" type="Camera2D" parent="CameraHandler"]
 position = Vector2(540, 360)
 
+[node name="WorldGenerator" type="Node2D" parent="." node_paths=PackedStringArray("water_layer", "ground_layer", "grass_layer")]
+scale = Vector2(4, 4)
+script = ExtResource("10_ya4ey")
+water_layer = NodePath("WaterLayer")
+ground_layer = NodePath("GroundLayer")
+grass_layer = NodePath("GrassLayer")
+noise_texture = SubResource("NoiseTexture2D_eb6dy")
+
+[node name="WaterLayer" type="TileMapLayer" parent="WorldGenerator"]
+tile_set = SubResource("TileSet_ya4ey")
+
+[node name="GroundLayer" type="TileMapLayer" parent="WorldGenerator"]
+tile_set = SubResource("TileSet_eb6dy")
+
+[node name="GrassLayer" type="TileMapLayer" parent="WorldGenerator"]
+tile_set = SubResource("TileSet_trceg")
+
 [node name="UserInterface" type="CanvasLayer" parent="."]
 
 [node name="AddMeleeButton" type="Button" parent="UserInterface"]
@@ -1178,22 +1195,5 @@ offset_bottom = 700.0
 text = "Melee"
 icon = SubResource("AtlasTexture_tefeu")
 expand_icon = true
-
-[node name="ProceduralGeneration" type="Node2D" parent="." node_paths=PackedStringArray("water_layer", "ground_layer", "grass_layer")]
-scale = Vector2(4, 4)
-script = ExtResource("10_ya4ey")
-water_layer = NodePath("WaterLayer")
-ground_layer = NodePath("GroundLayer")
-grass_layer = NodePath("GrassLayer")
-noise_texture = SubResource("NoiseTexture2D_eb6dy")
-
-[node name="WaterLayer" type="TileMapLayer" parent="ProceduralGeneration"]
-tile_set = SubResource("TileSet_ya4ey")
-
-[node name="GroundLayer" type="TileMapLayer" parent="ProceduralGeneration"]
-tile_set = SubResource("TileSet_eb6dy")
-
-[node name="GrassLayer" type="TileMapLayer" parent="ProceduralGeneration"]
-tile_set = SubResource("TileSet_trceg")
 
 [connection signal="pressed" from="UserInterface/AddMeleeButton" to="." method="_on_add_melee_pressed"]

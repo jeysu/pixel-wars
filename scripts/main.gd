@@ -1,7 +1,7 @@
 extends Node
 
 func _ready():
-	$ProceduralGeneration.setup()
+	$WorldGenerator.setup()
 	$BaseSpawner.spawn_adventurer_base()
 	$BaseSpawner.spawn_mob_base()
 	$MobSpawner.spawn_mob()
